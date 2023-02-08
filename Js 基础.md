@@ -4,7 +4,7 @@ Js 是 解释一句执行一句的，所以报错处停止执行。
 
 Js 是 客户端的脚本语言
 
-<img src="./assets/Js 基础.assets\image-20220326095307391.png" alt="image-20220326095307391" style="zoom:33%;" />
+<img src="./assets/Js 基础\image-20220326095307391.png" alt="image-20220326095307391" style="zoom:33%;" />
 
 
 
@@ -364,7 +364,7 @@ console.log(age); //19
 
 流程控制主要有三种结构，分别是`顺序结构`、`分支结构`和`循环结构`，这三种结构代表三种代码执行的顺序。
 
-<img src="./assets/Js 基础.assets\image-20220326105436419.png" alt="image-20220326105436419" style="zoom:33%;" />
+<img src="./assets/Js 基础\image-20220326105436419.png" alt="image-20220326105436419" style="zoom:33%;" />
 
 ## 分支结构
 
@@ -1249,7 +1249,7 @@ let arr = new Array(2,3); // 相当于创建了数组[2,3]
     -   str.charAt(0)
 -   charCodeAt(index)
     -   获取指定位置处字符的`ASCI码`(index索引号)
-    -   <img src="./assets/Js 基础.assets\1.jpg" alt="img" style="zoom: 33%;" />
+    -   <img src="./assets/Js 基础\1.jpg" alt="img" style="zoom: 33%;" />
     -   str.charCodeAt(0)
 -   str[index]
     -   获取指定位置处字符
@@ -1321,7 +1321,7 @@ let arr = new Array(2,3); // 相当于创建了数组[2,3]
 
 # Web APIs
 
-<img src="./assets/Js 基础.assets\image-20220327130557229.png" alt="image-20220327130557229" style="zoom:33%;" />
+<img src="./assets/Js 基础\image-20220327130557229.png" alt="image-20220327130557229" style="zoom:33%;" />
 
 -   JS基础学习ECMAScript基础语法为后面作铺垫，
 -   Web APIs是JS的应用，大量使用JS基础语法做交互效果
@@ -1352,7 +1352,7 @@ let arr = new Array(2,3); // 相当于创建了数组[2,3]
 
 #### DOM树
 
-<img src="./assets/Js 基础.assets/image-20220327162001814.png" alt="image-20220327130557229" style="zoom:33%;" />
+<img src="./assets/Js 基础/image-20220327162001814.png" alt="image-20220327130557229" style="zoom:33%;" />
 
 
 
@@ -1841,12 +1841,12 @@ ul.insertBefore( li , ul.children[0] );// 添加到ul的第一个子级后
     2.当前目标阶段
     3.冒泡阶段
 
-<img src="./assets/Js 基础.assets/image-20220329160427238.png" alt="image-20220329160427238" style="zoom: 50%;"/>
+<img src="./assets/Js 基础/image-20220329160427238.png" alt="image-20220329160427238" style="zoom: 50%;"/>
 
 -   事件冒泡：IE最早提出，事件开始时由最具体的元素接收，然后逐级向上传播到到DOM最顶层节点的过程。
 -   事件捕获：网景最早提出，由DOM最顶层节点开始，然后逐级向下传播到到最具体的元素接收的过程。
 
-<img src="./assets/Js 基础.assets/image-20220329160945316.png" alt="image-20220329160945316" style="zoom: 33%;" />
+<img src="./assets/Js 基础/image-20220329160945316.png" alt="image-20220329160945316" style="zoom: 33%;" />
 
 ### 注意
 
@@ -1990,7 +1990,7 @@ document.addEventListener('contextmenu',function(e){
 
 ## BOM的构成
 
-<img src="./assets/Js 基础.assets/image-20220329190039233.png" alt="image-20220329190039233" style="zoom:80%;" />
+<img src="./assets/Js 基础/image-20220329190039233.png" alt="image-20220329190039233" style="zoom:80%;" />
 
 1.  它是JS访问浏览器窗口的一个接口。
 2.  它是一个全局对象。定义在全局作用域中的变量、函数都会变成wdow对象的属性和方法。
@@ -2101,7 +2101,7 @@ document.addEventListener('contextmenu',function(e){
     系统就会按次序读取任务队列中的异步任务，
     于是被读取的异步任务结束等待状态，<u>进入执行栈</u>，开始执行。
 
--   由于主线程不断的重复获得任务、执行任务、再获取任务、再执行，所以这种机制被称为<u>事件循环</u>(event loop)。<img src="./assets/Js 基础.assets/image-20220329221556283.png" alt="image-20220329221556283" style="zoom:50%;" />
+-   由于主线程不断的重复获得任务、执行任务、再获取任务、再执行，所以这种机制被称为<u>事件循环</u>(event loop)。<img src="./assets/Js 基础/image-20220329221556283.png" alt="image-20220329221556283" style="zoom:50%;" />
 
 
 
