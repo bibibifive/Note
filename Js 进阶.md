@@ -3787,56 +3787,60 @@ import { sayHi } from './say.js' // 在文件底部导入
 
 尽管 `import()` 看起来像一个函数调用，但它只是一种特殊语法，只是恰好使用了括号（类似于 `super()`）。
 
-因此，我们不能将 `import` 复制到一个变量中，或者对其使用 `call/apply`。因为它==不是一个函数==。
+因此，我们不能将 `import` 复制到一个变量中，或者对其使用 `call/apply`。因为它**不是一个函数**。
+
+---
 
 # proxy 代理器
 
 ```js
 let OBJ = { name: 'may', age: 20 }
 let proxy = new Proxy(OBJ, {
-  get(obj, property) {
+  get(obj, property, receiver) {
     return obj[property]
   },
-  set(obj, property, value) {
+  set(obj, property, value, receiver) {
     obj[property] = value
+    console.log('SET')
     return true
   },
 })
 
-proxy.name = 'Fri'
+proxy.name = 'Fri' // 'SET'
 ```
 
 #### 请注意：
 
-请注意==代理如何覆盖变量==：
+请注意**代理如何覆盖变量**：
 
 ```javascript
 dictionary = new Proxy(dictionary, ...);
 ```
 
-代理应该在所有地方都==完全替代目标对象==。目标对象被代理后，任何人都不应该再引用目标对象。否则很容易搞砸。
+代理应该在所有地方都**完全替代目标对象**。目标对象被代理后，任何人都不应该再引用目标对象。否则很容易搞砸。
 
-内部方法 <u>被</u> Handler 方法 <u>拦截在</u> 何时触发
+内部方法被 `Handler` 方法 拦截在 `何时触发`
 
-| 内部方法                | Handler 方法               | 何时触发                                                                                                                                                                                                                                                                                                                    |
-| :---------------------- | :------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `[[Get]]`               | `get`                      | 读取属性                                                                                                                                                                                                                                                                                                                    |
-| `[[Set]]`               | `set`                      | 写入属性                                                                                                                                                                                                                                                                                                                    |
-| `[[HasProperty]]`       | `has`                      | `in` 操作符                                                                                                                                                                                                                                                                                                                 |
-| `[[Delete]]`            | `deleteProperty`           | `delete` 操作符                                                                                                                                                                                                                                                                                                             |
-| `[[Call]]`              | `apply`                    | 函数调用                                                                                                                                                                                                                                                                                                                    |
-| `[[Construct]]`         | `construct`                | `new` 操作符                                                                                                                                                                                                                                                                                                                |
-| `[[GetPrototypeOf]]`    | `getPrototypeOf`           | [Object.getPrototypeOf](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf)                                                                                                                                                                                                |
-| `[[SetPrototypeOf]]`    | `setPrototypeOf`           | [Object.setPrototypeOf](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf)                                                                                                                                                                                                |
-| `[[IsExtensible]]`      | `isExtensible`             | [Object.isExtensible](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/isExtensible)                                                                                                                                                                                                    |
-| `[[PreventExtensions]]` | `preventExtensions`        | [Object.preventExtensions](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/preventExtensions)                                                                                                                                                                                          |
-| `[[DefineOwnProperty]]` | `defineProperty`           | [Object.defineProperty](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty), [Object.defineProperties](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties)                                                              |
-| `[[GetOwnProperty]]`    | `getOwnPropertyDescriptor` | [Object.getOwnPropertyDescriptor](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor), `for..in`, `Object.keys/values/entries`                                                                                                                                   |
-| `[[OwnPropertyKeys]]`   | `ownKeys`                  | [Object.getOwnPropertyNames](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames), [Object.getOwnPropertySymbols](https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols), `for..in`, `Object.keys/values/entries` |
+| 内部方法                | Handler 方法               | 何时触发                                                                 |
+| :---------------------- | :------------------------- | :----------------------------------------------------------------------- |
+| `[[Get]]`               | `get`                      | 读取属性                                                                 |
+| `[[Set]]`               | `set`                      | 写入属性                                                                 |
+| `[[HasProperty]]`       | `has`                      | `in` 操作符                                                              |
+| `[[Delete]]`            | `deleteProperty`           | `delete` 操作符                                                          |
+| `[[Call]]`              | `apply`                    | 函数调用                                                                 |
+| `[[Construct]]`         | `construct`                | `new` 操作符                                                             |
+| `[[GetPrototypeOf]]`    | `getPrototypeOf`           | Object.getPrototypeOf                                                    |
+| `[[SetPrototypeOf]]`    | `setPrototypeOf`           | Object.getPrototypeOf                                                    |
+| `[[IsExtensible]]`      | `isExtensible`             | Object.isExtensible                                                      |
+| `[[PreventExtensions]]` | `preventExtensions`        | Object.preventExtensions                                                 |
+| `[[DefineOwnProperty]]` | `defineProperty`           | Object.defineProperty                                                    |
+| `[[GetOwnProperty]]`    | `getOwnPropertyDescriptor` | Object.getOwnPropertyDescriptor, `for..in`, `Object.keys/values/entries` |
+| `[[OwnPropertyKeys]]`   | `ownKeys`                  | Object.getOwnPropertyNames, `for..in`, `Object.keys/values/entries`      |
 
-有一个普遍的约定，
+> `普遍的约定`
+> 即以下划线 `_` 开头的属性和方法是**内部的**。不应从对象外部访问它们。
 
-即以下划线 `_` 开头的属性和方法是==内部的==。不应从对象外部访问它们。
+### 常见捕捉器
 
 `get(target, prop, receiver)`
 
@@ -3858,9 +3862,97 @@ dictionary = new Proxy(dictionary, ...);
 - `thisArg` 是 `this` 的值。
 - `args` 是参数列表。
 
+### [`Proxy` 来替换掉**包装函数**](https://zh.javascript.info/proxy#proxy-apply)
+
 `Proxy` 的功能要强大得多，因为它可以将所有东西转发到目标对象。
 
-让我们使用 `Proxy` 来==替换掉包装函数==
+### Reflect
+
+Reflect 是一个内建对象，可简化 Proxy 的创建。
+对于每个可被 Proxy 捕获的内部方法，在 Reflect 中都有一个对应的方法，其名称和参数与 Proxy 捕捉器相同。
+所以，我们可以使用 Reflect 来将操作转发给原始对象。
+
+```js
+let user = {
+  name: 'John',
+}
+
+user = new Proxy(user, {
+  get(target, prop, receiver) {
+    alert(`GET ${prop}`)
+    return Reflect.get(target, prop, receiver) // (1)
+  },
+  set(target, prop, val, receiver) {
+    alert(`SET ${prop}=${val}`)
+    return Reflect.set(...arguments) // (可以简化传参)
+  },
+})
+
+let name = user.name // 显示 "GET name"
+user.name = 'Pete' // 显示 "SET name=Pete"
+```
+
+Reflect 调用的命名与捕捉器的命名完全相同，并且**接受相同的参数**。它们是以这种方式专门设计的。
+
+### Proxy 的局限性
+
+[内建对象：`内部插槽`（Internal slot）](https://zh.javascript.info/proxy#nei-jian-dui-xiang-nei-bu-cha-cao-internalslot)
+许多内建对象，例如 Map，Set，Date，Promise 等，都使用了所谓的“内部插槽”。
+
+[私有字段](https://zh.javascript.info/proxy#si-you-zi-duan)
+
+> `注意`
+> Proxy 无法拦截严格相等性检查 ===
+
+### [可撤销 Proxy](https://zh.javascript.info/proxy#ke-che-xiao-proxy)
+
+一个 可撤销 的代理是可以被禁用的代理。
+
+```js
+let { proxy, revoke } = Proxy.revocable(target, handler)
+```
+
+```js
+let object = {
+  data: 'Valuable data',
+}
+
+let { proxy, revoke } = Proxy.revocable(object, {})
+
+// 将 proxy 传递到其他某处，而不是对象...
+alert(proxy.data) // Valuable data
+
+// 稍后，在我们的代码中
+revoke()
+
+// proxy 不再工作（revoked）
+alert(proxy.data) // Error
+```
+
+以便后续调用 `revoke`
+我们也可以通过设置 **proxy.revoke = revoke** 来将 revoke 绑定到 proxy。
+
+另一种选择是创建一个 `WeakMap`，其中 proxy 作为键，相应的 revoke 作为值，这样可以轻松找到 proxy 所对应的 revoke：
+
+```js
+let revokes = new WeakMap()
+
+let object = {
+  data: 'Valuable data',
+}
+
+let { proxy, revoke } = Proxy.revocable(object, {})
+
+revokes.set(proxy, revoke)
+
+// ...我们代码中的其他位置...
+revoke = revokes.get(proxy)
+revoke()
+
+alert(proxy.data) // Error（revoked）
+```
+
+此处我们使用 `WeakMap` 而不是 Map，因为它**不会阻止垃圾回收**。如果一个代理对象变得“不可访问”（例如，没有变量再引用它），则 WeakMap 允许将其与它的 revoke 一起从内存中清除，因为我们不再需要它了。
 
 #### 用 proxy 实现双向绑定
 
