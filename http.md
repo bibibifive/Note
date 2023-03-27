@@ -33,7 +33,7 @@ alert(document.cookie) //...;my%20name=John%20Smith
 
 `限制`
 
-- encodeURIComponent 编码后的 name=value 对，大小不能超过**4KB**。
+- name=value 对，大小不能超过**4KB**。
 - 每个域的 cookie 总数不得超过 20+左右，具体限制取决于浏览器。
 
 ### 几个选项
@@ -41,3 +41,8 @@ alert(document.cookie) //...;my%20name=John%20Smith
 > Cookie 有几个选项，其中很多都很重要，应该设置它。
 
 选项被列在 **key=value 之后**，以`；`分隔，像这样：
+
+
+# 长轮询
+
+长轮询是一种长连接，长轮询
